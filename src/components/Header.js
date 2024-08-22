@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Badge from "@mui/material/Badge";
@@ -11,10 +11,14 @@ import { Table } from "react-bootstrap";
 import { DLT } from "../redux/actions/action";
 
 export default function Header() {
+
+  const [price,setPrice] = useState(0);
+  // console.log(price);
+
   const getdata = useSelector((state) => state.cartreducer.carts);
   // console.log(getdata);
 
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -25,9 +29,21 @@ export default function Header() {
     setAnchorEl(null);
   };
 
-  const dlt =(id)=>{
-    dispatch(DLT(id))
+  const dlt = (id) => {
+    dispatch(DLT(id));
+  };
+
+  const total=()=>{
+    let price=0;
+    getdata.map((ele,k)=>{
+      price= ele.price + price
+    })
+    setPrice(price);
   }
+
+  useEffect(()=>{
+    total()
+  },[total])
 
   return (
     <>
@@ -79,31 +95,50 @@ export default function Header() {
                   </tr>
                 </thead>
                 <tbody>
-                  {
-                    getdata.map((e)=>{
-                      return(
-                        <>
+                  {getdata.map((e) => {
+                    return (
+                      <>
                         <tr>
                           <td>
-                          <NavLink to={`/cart/${e.id}`} onClick={handleClose} ><img src={e.imgdata} style={{width:"5rem",height:"5rem"}} alt="" /></NavLink>
+                            <NavLink to={`/cart/${e.id}`} onClick={handleClose}>
+                              <img
+                                src={e.imgdata}
+                                style={{ width: "5rem", height: "5rem" }}
+                                alt=""
+                              />
+                            </NavLink>
                           </td>
                           <td>
                             <p>{e.rname}</p>
                             <p>Price :₹ {e.price}</p>
                             <p>Quantity: {e.qnty}</p>
-                            <p style={{color:"red",fontSize:20,cursor:"pointer"}} onClick={()=>dlt(e.id)} >
-                              <i className="fas fa-trash smalltrash " ></i>
+                            <p
+                              style={{
+                                color: "red",
+                                fontSize: 20,
+                                cursor: "pointer",
+                              }}
+                              onClick={() => dlt(e.id)}
+                            >
+                              <i className="fas fa-trash smalltrash "></i>
                             </p>
                           </td>
-                          <td className="mt-5" style={{color:"red",fontSize:20,cursor:"pointer"}} onClick={()=>dlt(e.id)} >
-                          <i className="fas fa-trash largetrash" ></i>
+                          <td
+                            className="mt-5"
+                            style={{
+                              color: "red",
+                              fontSize: 20,
+                              cursor: "pointer",
+                            }}
+                            onClick={() => dlt(e.id)}
+                          >
+                            <i className="fas fa-trash largetrash"></i>
                           </td>
                         </tr>
-                        </>
-                      )
-                    })
-                  }
-                  <p className="text-center">Total :₹ 300</p>
+                      </>
+                    );
+                  })}
+                  <p className="text-center">Total :₹ {price}</p>
                 </tbody>
               </Table>
             </div>
