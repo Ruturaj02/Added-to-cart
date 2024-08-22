@@ -13,7 +13,7 @@ export default function Cards() {
 
 const Send=(e)=>{
   dispatch(ADD(e))
-  console.log(e);
+  // console.log(e);
 
 }
 

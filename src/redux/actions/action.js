@@ -13,3 +13,13 @@ export const DLT=(id)=>{
         payload:id
     }
 }
+
+
+//remove individual item
+
+export const REMOVE=(iteam)=>{
+    return{
+        type:"RMV_ONE",
+        payload:iteam
+    }
+}
