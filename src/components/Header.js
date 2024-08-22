@@ -6,12 +6,15 @@ import Nav from "react-bootstrap/Nav";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Table } from "react-bootstrap";
+import { DLT } from "../redux/actions/action";
 
 export default function Header() {
   const getdata = useSelector((state) => state.cartreducer.carts);
   // console.log(getdata);
+
+  const dispatch=useDispatch()
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -21,6 +24,10 @@ export default function Header() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const dlt =(id)=>{
+    dispatch(DLT(id))
+  }
 
   return (
     <>
@@ -84,11 +91,11 @@ export default function Header() {
                             <p>{e.rname}</p>
                             <p>Price :₹ {e.price}</p>
                             <p>Quantity: {e.qnty}</p>
-                            <p style={{color:"red",fontSize:20,cursor:"pointer"}} >
+                            <p style={{color:"red",fontSize:20,cursor:"pointer"}} onClick={()=>dlt(e.id)} >
                               <i className="fas fa-trash smalltrash " ></i>
                             </p>
                           </td>
-                          <td className="mt-5" style={{color:"red",fontSize:20,cursor:"pointer"}} >
+                          <td className="mt-5" style={{color:"red",fontSize:20,cursor:"pointer"}} onClick={()=>dlt(e.id)} >
                           <i className="fas fa-trash largetrash" ></i>
                           </td>
                         </tr>

@@ -1,7 +1,8 @@
 import Table from "react-bootstrap/Table";
 import React, { useEffect , useState } from 'react'
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { DLT } from "../redux/actions/action";
 
 export default function CardsDetails() {
 
@@ -12,7 +13,7 @@ console.log(data);
   const {id} = useParams()
   // console.log(id);
 
-
+const dispatch=useDispatch()
  
   const getdata = useSelector((state) => state.cartreducer.carts);
   // console.log(getdata);
@@ -29,6 +30,11 @@ console.log(data);
     compare()
 
   },[id])
+
+  const dlt =(id)=>{
+    dispatch(DLT(id))
+  }
+
   return (
     <>
     <div className="container mt-2">
@@ -54,7 +60,7 @@ console.log(data);
                 <td>
                 <p><strong>Rating:</strong> <span style={{backgroundColor:"green",color:"#fff", padding:"2px 5px" , borderRadius:"5px"}} >{ele.rating} ★</span></p>
                 <p><strong>Order Review:</strong>{ele.somedata}</p>
-                <p><strong>Remove :</strong> <span><i className="fas fa-trash" style={{color:"red",fontSize:20,cursor:"pointer"}}></i></span></p>
+                <p><strong>Remove :</strong> <span><i className="fas fa-trash" style={{color:"red",fontSize:20,cursor:"pointer"}} onClick={()=>dlt(ele.id)} ></i></span></p>
                 </td>
               </tr>
             </Table>

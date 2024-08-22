@@ -4,3 +4,12 @@ export const ADD=(item)=>{
         payload:item
     }
 }
+
+//remove items 
+
+export const DLT=(id)=>{
+    return{
+        type:"RMV_CART",
+        payload:id
+    }
+}
